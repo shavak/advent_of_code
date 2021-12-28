@@ -6,14 +6,6 @@ Created on Tue Dec 28 15:28:48 2021
 @author: shavak
 """
 
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Dec 28 15:15:34 2021
-
-@author: shavak
-"""
-
 a = 0.0
 h = 0.0
 d = 0.0

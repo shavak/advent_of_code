@@ -34,4 +34,6 @@ while line != "":
     s = t
     line = f.readline()
 
+f.close()
+
 print("Answer = {}".format(c))
