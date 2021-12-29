@@ -22,6 +22,8 @@ while line != "":
         c[i] += (line[i] == '1')
     line = f.readline()
 
+f.close()
+
 h = m / 2
 g = 0
 e = 0
