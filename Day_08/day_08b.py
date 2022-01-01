@@ -49,8 +49,8 @@ def decode_segment_labels(p):
     return M
 
 ans = 0
-with open("input.txt", "r") as f:
-    for line in f:
+with open("input.txt", "r") as input_file:
+    for line in input_file:
         reading = line.split("|")
         p = reading[0].split()
         M = decode_segment_labels(p)
