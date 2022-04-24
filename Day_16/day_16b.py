@@ -6,9 +6,6 @@ Created on Sat Apr 23 18:16:07 2022
 @author: shavak
 """
 
-import operator
-from functools import reduce
-
 input_file = "input.txt"
 
 hex_to_bin_map = {
@@ -32,13 +29,13 @@ hex_to_bin_map = {
     }
 
 op_map = {
-    0 : sum,
-    1 : lambda x : reduce(operator.mul, x),
+    0 : lambda x, y : x + y,
+    1 : lambda x, y : x * y,
     2 : min,
     3 : max,
-    5 : lambda x : 1 if x[0] > x[1] else 0,
-    6 : lambda x : 1 if x[0] < x[1] else 0,
-    7 : lambda x : 1 if x[0] == x[1] else 0
+    5 : lambda x, y : 1 if x > y else 0,
+    6 : lambda x, y : 1 if x < y else 0,
+    7 : lambda x, y : 1 if x == y else 0
     }
 
 def evaluate_literal(p, i):
@@ -68,23 +65,25 @@ def evaluate_packet(p):
             # The next 15 digits give the total length in bits of the
             # sub-packets contained in this operator packet.
             i = 22
-            stack.append([t, i + int(p[7 : 22], 2), -1, []])
+            stack.append((t, i + int(p[7 : 22], 2), -1, None))
         else:
             # The next 11 bits are a number that represents the number of
             # sub-packets immediately contained in this operator packet.
             i = 18
-            stack.append([t, -1, int(p[7 : 18], 2), []])
+            stack.append((t, -1, int(p[7 : 18], 2), None))
     a = None
     while stack:
         s = stack[-1]
         if a is not None:
-            s[3].append(a)
+            stack[-1] = s[0 : 3] +\
+                (a if s[3] is None else op_map[s[0]](s[3], a), )
+            s = stack[-1]
         if i == s[1] or s[2] == 0:
-            a = op_map[s[0]](s[3])
+            a = s[3]
             stack.pop()
             continue
         if s[2] != -1:
-            s[2] -= 1
+            stack[-1] = s[0 : 2] + (s[2] - 1, s[3])
         # Right. Time to process a new packet.
         j = i
         i += 3
@@ -101,13 +100,13 @@ def evaluate_packet(p):
                 # sub-packets contained in this operator packet.
                 j = i + 1
                 i += 16
-                stack.append([t, i + int(p[j : i], 2), -1, []])
+                stack.append((t, i + int(p[j : i], 2), -1, None))
             else:
                 # The next 11 bits are a number that represents the number of
                 # sub-packets immediately contained in this operator packet.
                 j = i + 1
                 i += 12
-                stack.append([t, -1, int(p[j : i], 2), []])
+                stack.append((t, -1, int(p[j : i], 2), None))
     return a 
 
 with open(input_file, "r") as f:
