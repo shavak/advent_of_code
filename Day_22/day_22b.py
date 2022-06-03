@@ -6,22 +6,14 @@ Created on Thu Jun  2 19:51:29 2022
 @author: shavak
 """
 
-input_file = "test_input2.txt"
+input_file = "input.txt"
 
-on_cuboids = []
+C = []
 
 def interval_intersection(I, J):
-    p = 0
-    q = 0
-    if J[0] >= I[0] and J[0] <= I[1]:
-        p = J[0]
-        q = min(I[1], J[1])
-    elif I[0] >= J[0] and I[0] <= J[1]:
-        p = I[0]
-        q = min(I[1], J[1])
-    else:
+    if J[0] > I[1] or I[0] > J[1]:
         return None
-    return [p, q]
+    return [max(I[0], J[0]), min(I[1], J[1])]
 
 def hypercuboid_intersection(A, B):
     ans = []
@@ -34,7 +26,16 @@ def hypercuboid_intersection(A, B):
             ans.append(I)
     return ans
 
+def hypercuboid_grid_point_count(Q):
+    ans = 1
+    n = len(Q)
+    for i in range(n):
+        ans *= Q[i][1] - Q[i][0] + 1
+    return ans
+
 def cuboidectomy(A, R):
+    if R == None:
+        return [A]
     ans = []
     x1 = R[0][0] - 1
     x2 = R[0][1] + 1
@@ -57,29 +58,28 @@ def cuboidectomy(A, R):
     return ans
 
 def add_cuboid(Q, switch_on):
-    global on_cuboids
-    if not on_cuboids and switch_on:
-        on_cuboids.append(Q)
-        return
-    on_cuboids_new = []
-    for U in on_cuboids:
+    global C
+    C_new = []
+    for U in C:
         R = hypercuboid_intersection(U, Q)
-        on_cuboids_new.extend(cuboidectomy(U, R))
-        if switch_on:
-            on_cuboids_new.extend(cuboidectomy(Q, R) + [R])
-    on_cuboids = on_cuboids_new
+        C_new.extend(cuboidectomy(U, R))
+    if switch_on:
+        C_new.append(Q)
+    C = C_new
     
 def number_on_cubes():
     ans = 0
-    for Q in on_cuboids:
-        ans += (Q[0][1] - Q[0][0] + 1) * (Q[1][1] - Q[1][0] + 1)\
-            * (Q[2][1] - Q[2][0] + 1)
+    for Q in C:
+        ans += hypercuboid_grid_point_count(Q)
     return ans
     
 with open(input_file, "r") as f:
     for line in f.readlines():
         flip, coords = line.split()
         Q = [[int(c) for c in u[2 : ].split("..")] for u in coords.split(",")]
-        add_cuboid(Q, flip == "on")
+        if flip == "on":
+            add_cuboid(Q, True)
+        else:
+            add_cuboid(Q, False)
             
 print("\nAnswer = {}.".format(number_on_cubes()))
