@@ -6,11 +6,12 @@ Created on Fri Jun  3 13:10:13 2022
 @author: shavak
 """
 
-input_file = "test_input.txt"
+input_file = "input_a.txt"
 
-G = {"A" : 3, "B" : 5, "C" : 7, "D" : 9}
-
-E = {T : h for (T, h) in zip(G.keys(), [10**q for q in range(4)])}
+Y = ["A", "B", "C", "D"]
+Z = [3, 5, 7, 9]
+G = {T : i for (T, i) in zip(Y, Z)}
+E = {T : h for (T, h) in zip(Y, [10**q for q in range(4)])}
 
 def diagram_copy(diagram):
     res = []
@@ -38,16 +39,9 @@ def is_fully_organised(diagram):
         ans = ans and is_organised(diagram, T)
     return ans
 
-def energy_usage(T, i, j, k, l):
-    return abs((k - i) * (l - j)) * E[T]
-
 def amphipod_moves(diagram, locator, type_key):
     i, j = locator[type_key]
     T = type_key[0]
-    if i == 3 and (j == G[T] or diagram[2][j] != "."):
-        # Amphipod is either already where it needs to be or cannot move just
-        # yet.
-        return []
     if i == 1:
         # Amphipod is in the hallway - the only place that it can go is to its
         # designated room.
@@ -71,7 +65,12 @@ def amphipod_moves(diagram, locator, type_key):
         D[k][l] = T
         H = locator.copy()
         H[type_key] = (k, l)
-        return [(D, H, energy_usage(T, i, j, k, l))]
+        f = ((k - 1) + s * (l - j)) * E[T]
+        return [(D, H, f)]
+    if i == 3 and (j == G[T] or diagram[2][j] != "."):
+        # Amphipod is either already where it needs to be or cannot move just
+        # yet.
+        return []
     else:
         # Amphipod is in a room.
         # Investigate the possible "hallway" moves and then check whether
@@ -80,27 +79,33 @@ def amphipod_moves(diagram, locator, type_key):
         res = []
         q = j - 1
         l = G[T]
-        r2r = False
+        room_switch = False
         while diagram[1][q] == ".":
-            D = diagram_copy(diagram)
-            D[i][j] = "."
-            D[1][q] = T
-            H = locator.copy()
-            H[type_key] = (1, q)
-            res.append((D, H, energy_usage(T, i, j, 1, q)))
-            r2r = q == l
+            if q in Z:
+                room_switch = room_switch or (q == l)
+            else:
+                D = diagram_copy(diagram)
+                D[i][j] = "."
+                D[1][q] = T
+                H = locator.copy()
+                H[type_key] = (1, q)
+                f = (i - 1 + j - q) * E[T]
+                res.append((D, H, f))
             q -= 1
         q = j + 1
         while diagram[1][q] == ".":
-            D = diagram_copy(diagram)
-            D[i][j] = "."
-            D[1][q] = T
-            H = locator.copy()
-            H[type_key] = (1, q)
-            res.append((D, H, energy_usage(T, i, j, 1, q)))
-            r2r = q == l
+            if q in Z:
+                room_switch = room_switch or(q == l)
+            else:
+                D = diagram_copy(diagram)
+                D[i][j] = "."
+                D[1][q] = T
+                H = locator.copy()
+                H[type_key] = (1, q)
+                f = (i - 1 + q - j) * E[T]
+                res.append((D, H, f))
             q += 1
-        if r2r and diagram[2][l] == ".":
+        if room_switch and diagram[2][l] == ".":
             # Room-to-room?
             k = -1
             if diagram[3][l] == T:
@@ -114,8 +119,8 @@ def amphipod_moves(diagram, locator, type_key):
             D[k][l] = T
             H = locator.copy()
             H[type_key] = (k, l)
-            res.append((D, H, energy_usage(T, i, j, 1, l)\
-                        + energy_usage(T, 1, l, k, l)))
+            f = ((i - 1) + abs(j - l) + (k - 1)) * E[T]
+            res.append((D, H, f))
         return res
     return []    
 
@@ -124,6 +129,8 @@ def minimum_organising_energy(diagram):
     stack = [(diagram, starting_locator(diagram), 0)]
     while stack:
         diagram, locator, energy_used = stack.pop()
+        if energy_used > minimum_energy:
+            continue
         if is_fully_organised(diagram):
             minimum_energy = min(minimum_energy, energy_used)
             continue
@@ -131,11 +138,13 @@ def minimum_organising_energy(diagram):
             if not is_organised(diagram, T):
                 # If the amphipod of Type T is not already organised, then it
                 # can be moved.
-                for (D, L, h) in amphipod_moves(diagram, locator, (T, 1)):
+                A = amphipod_moves(diagram, locator, (T, 1))
+                for (D, L, h) in A:
                     v = energy_used + h
                     if v < minimum_energy:
                         stack.append((D, L, v))
-                for (D, L, h) in amphipod_moves(diagram, locator, (T, 2)):
+                A = amphipod_moves(diagram, locator, (T, 2))
+                for (D, L, h) in A:
                     v = energy_used + h
                     if v < minimum_energy:
                         stack.append((D, L, v))
