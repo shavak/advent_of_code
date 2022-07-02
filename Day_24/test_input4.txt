@@ -1,0 +1,17 @@
+inp w
+add x w
+inp w
+inp w
+inp w
+inp w
+inp w
+inp w
+inp w
+inp w
+inp w
+inp w
+inp w
+inp w
+inp w
+add z 8
+mod z x

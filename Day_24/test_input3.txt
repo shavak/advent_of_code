@@ -1,0 +1,5 @@
+inp w
+add x 8
+inp w
+add z w
+mod z x
