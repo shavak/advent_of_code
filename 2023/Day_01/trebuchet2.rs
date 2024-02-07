@@ -29,43 +29,17 @@ fn digit_check(w: &Vec<char>, j: usize) -> Option<u32> {
     let c = w[j];
     match w[j] {
         '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' => c.to_digit(10),
-        'o' => {
-            let s: String = w.iter().skip(j).take(3).collect();
-            digits.get(&s).copied()
-        }
-        't' => {
-            let s: String = w.iter().skip(j).take(3).collect();
-            let x = digits.get(&s).copied();
-            if let Some(_y) = x {
-                x
-            } else {
-                let s: String = w.iter().skip(j).take(5).collect();
-                digits.get(&s).copied()
+        _ => {
+            let mut ans: Option<u32> = None;
+            for (word, d) in digits {
+                let s: String = w.iter().skip(j).take(word.len()).collect();
+                if s == word {
+                    ans = Some(d);
+                    break;
+                }
             }
+            ans
         }
-        'f' => {
-            let s: String = w.iter().skip(j).take(4).collect();
-            digits.get(&s).copied()
-        }
-        's' => {
-            let s: String = w.iter().skip(j).take(3).collect();
-            let x = digits.get(&s).copied();
-            if let Some(_y) = x {
-                x
-            } else {
-                let s: String = w.iter().skip(j).take(5).collect();
-                digits.get(&s).copied()
-            }
-        }
-        'e' => {
-            let s: String = w.iter().skip(j).take(5).collect();
-            digits.get(&s).copied()
-        }
-        'n' => {
-            let s: String = w.iter().skip(j).take(4).collect();
-            digits.get(&s).copied()
-        }
-        _ => None,
     }
 }
 
