@@ -16,15 +16,15 @@ where
 
 fn digit_check(w: &Vec<char>, j: usize) -> Option<u32> {
     let digits = HashMap::from([
-        (String::from("one"), 1_u32),
-        (String::from("two"), 2_u32),
-        (String::from("three"), 3_u32),
-        (String::from("four"), 4_u32),
-        (String::from("five"), 5_u32),
-        (String::from("six"), 6_u32),
-        (String::from("seven"), 7_u32),
-        (String::from("eight"), 8_u32),
-        (String::from("nine"), 9_u32),
+        ("one", 1_u32),
+        ("two", 2_u32),
+        ("three", 3_u32),
+        ("four", 4_u32),
+        ("five", 5_u32),
+        ("six", 6_u32),
+        ("seven", 7_u32),
+        ("eight", 8_u32),
+        ("nine", 9_u32),
     ]);
     let c = w[j];
     match w[j] {
@@ -32,7 +32,7 @@ fn digit_check(w: &Vec<char>, j: usize) -> Option<u32> {
         _ => {
             let mut ans: Option<u32> = None;
             for (word, d) in digits {
-                let s: String = w.iter().skip(j).take(word.len()).collect();
+                let s: &str = &w.iter().skip(j).take(word.len()).collect::<String>()[..];
                 if s == word {
                     ans = Some(d);
                     break;
