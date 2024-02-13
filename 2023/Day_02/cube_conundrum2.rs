@@ -1,4 +1,4 @@
-// Advent of Code 2023 Problem 2 Part 1
+// Advent of Code 2023 Problem 2 Part 2
 // Author: Shavak Sinanan <shavak@gmail.com>
 
 use std::collections::HashMap;
