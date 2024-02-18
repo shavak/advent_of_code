@@ -48,3 +48,8 @@ Thumbs.db
 *.mov
 *.wmv
 
+# This repository will have multiple Rust Cargo projects two levels deep.
+*/*/debug/
+*/*/target/
+
+*/*/Cargo.lock

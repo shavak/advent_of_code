@@ -1,17 +1,29 @@
-// Advent of Code 2023 Problem 1 Part 2
+// Supporting crate for the solution to Advent of Code 2023 Day 1.
 // Author: Shavak Sinanan <shavak@gmail.com>
 
-use std::collections::HashMap;
 use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
+use std::str::Chars;
+use std::collections::HashMap;
 
-fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
+pub fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
 where
     P: AsRef<Path>,
 {
     let file = File::open(filename)?;
     Ok(io::BufReader::new(file).lines())
+}
+
+pub fn first_digit(char_iter: Chars, radix: u32) -> u32 {
+    let mut ans = 0;
+    for c in char_iter {
+        if let Some(x) = c.to_digit(radix) {
+            ans = x;
+            break;
+        }
+    }
+    ans
 }
 
 fn digit_check(w: &Vec<char>, j: usize) -> Option<u32> {
@@ -43,7 +55,7 @@ fn digit_check(w: &Vec<char>, j: usize) -> Option<u32> {
     }
 }
 
-fn calibration_value(w: &Vec<char>) -> u32 {
+pub fn calibration_value(w: &Vec<char>) -> u32 {
     let mut ans = 0;
     let n = w.len();
     for i in 0..n {
@@ -59,17 +71,4 @@ fn calibration_value(w: &Vec<char>) -> u32 {
         }
     }
     ans
-}
-
-fn main() {
-    let input_path_str = "./input.txt";
-    let mut acc = 0;
-    if let Ok(lines) = read_lines(input_path_str) {
-        // Consumes the iterator, returns an (Optional) String
-        for line in lines.flatten() {
-            let w: Vec<char> = line.chars().collect();
-            acc += calibration_value(&w);
-        }
-    }
-    println!("Sum of calibration values = {acc}");
 }
