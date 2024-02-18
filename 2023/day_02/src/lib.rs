@@ -60,7 +60,6 @@ pub fn minimum_content(game_str: &str) -> HashMap<&str, u32> {
         let round = create_round(round_str.trim());
         for (colour, x) in round {
             let y = min_cubes.entry(colour).or_insert(0);
-            // Need to deference here. TODO: Learn a bit more about this!
             if *y < x {
                 *y = x;
             }
