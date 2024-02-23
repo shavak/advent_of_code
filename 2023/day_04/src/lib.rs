@@ -16,7 +16,7 @@ where
 }
 
 fn num_matches(card: String) -> u32 {
-    // Computes the number of points on a single card.
+    // Computes the number of matches on a single card.
     let v: Vec<&str> = card.split(" | ").collect();
     let u: Vec<&str> = v[0].split(": ").collect();
     let w: HashSet<u32> = HashSet::from_iter(
