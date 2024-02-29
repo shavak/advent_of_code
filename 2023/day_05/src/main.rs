@@ -1,7 +1,7 @@
 // Solution to Advent of Code 2023 Day 4.
 // Author: Shavak Sinanan <shavak@gmail.com>
 
-use::std::path::*;
+use ::std::path::*;
 use day_05::*;
 
 fn part_a(input_path: &Path) {
@@ -9,7 +9,8 @@ fn part_a(input_path: &Path) {
     let mut rm: RangeMap = RangeMap::new();
     if let Ok(lines) = read_lines(input_path) {
         let mut lines_f = lines.flatten();
-        v = lines_f.next()
+        v = lines_f
+            .next()
             .unwrap_or(String::from("seeds: "))
             .split(": ")
             .collect::<Vec<&str>>()[1]
@@ -24,8 +25,7 @@ fn part_a(input_path: &Path) {
                 // If needed, I can parse the string in the next line to extract the source
                 // and destination identifiers.
                 lines_f.next();
-            }
-            else {
+            } else {
                 let u: Vec<u64> = line
                     .trim()
                     .split_whitespace()
@@ -36,17 +36,19 @@ fn part_a(input_path: &Path) {
         }
     }
     v = v.iter().map(|x| rm.image(*x)).collect();
-    println!("Part (a):\nLowest location number = {}\n", v.iter().min().unwrap());
+    println!(
+        "Part (a):\nLowest location number = {}\n",
+        v.iter().min().unwrap()
+    );
 }
-
 
 fn part_b(input_path: &Path) {
     let mut v: Vec<(u64, u64)> = Vec::<(u64, u64)>::new();
-    let mut u: Vec<(u64, u64)> = Vec::<(u64, u64)>::new();
     let mut rm: RangeMap = RangeMap::new();
     if let Ok(lines) = read_lines(input_path) {
         let mut lines_f = lines.flatten();
-        let h: Vec<u64> = lines_f.next()
+        let h: Vec<u64> = lines_f
+            .next()
             .unwrap_or(String::from("seeds: "))
             .split(": ")
             .collect::<Vec<&str>>()[1]
@@ -62,32 +64,26 @@ fn part_b(input_path: &Path) {
         }
         while let Some(line) = lines_f.next() {
             if line == "" {
-                for (q, k) in &v {
-                    u.append(&mut rm.range_image(*q, *k));
-                }
-                v.clear();
-                v.append(&mut u);
+                v = v.iter().flat_map(|&(q, k)| rm.range_image(q, k)).collect();
                 rm.clear();
                 // If needed, I can parse the string in the next line to extract the source
                 // and destination identifiers.
                 lines_f.next();
-            }
-            else {
-                let u: Vec<u64> = line
+            } else {
+                let w: Vec<u64> = line
                     .trim()
                     .split_whitespace()
                     .map(|x| x.trim().parse::<u64>().unwrap())
                     .collect();
-                rm.add_range(u[0], u[1], u[2] as usize)
+                rm.add_range(w[0], w[1], w[2] as usize)
             }
         }
     }
-    for (q, k) in &v {
-        u.append(&mut rm.range_image(*q, *k));
-    }
-    v.clear();
-    v.append(&mut u);
-    println!("Part (b):\nLowest location number = {}\n", v.iter().map(|&(r, _)| r).min().unwrap());
+    v = v.iter().flat_map(|&(q, k)| rm.range_image(q, k)).collect();
+    println!(
+        "Part (b):\nLowest location number = {}\n",
+        v.iter().map(|&(r, _)| r).min().unwrap()
+    );
 }
 
 fn main() {
