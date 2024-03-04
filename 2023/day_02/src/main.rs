@@ -3,6 +3,7 @@
 
 use std::path::Path;
 use std::collections::HashMap;
+use aoc_utils::*;
 use day_02::*;
 
 fn part_a(input_path: &Path) {

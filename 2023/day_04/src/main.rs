@@ -3,13 +3,14 @@
 
 use::std::path::*;
 use::std::collections::HashMap;
+use aoc_utils::*;
 use day_04::*;
 
 fn part_a(input_path: &Path) {
     let mut acc: u32 = 0;
     if let Ok(lines) = read_lines(input_path) {
         for line in lines.flatten() {
-            acc += card_points(line);
+            acc += card_points(&line);
         }
     }
     println!("Part (a):\nTotal number of points = {acc}\n");
@@ -21,7 +22,7 @@ fn part_b(input_path: &Path) {
     if let Ok(lines) = read_lines(input_path) {
         for line in lines.flatten() {
             k += 1;
-            update_card_count(line, k, &mut card_copies);
+            update_card_count(&line, k, &mut card_copies);
         }
     }
     println!("Part (b):\nTotal number of cards = {}\n", card_copies.values().sum::<u32>());

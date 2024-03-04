@@ -2,6 +2,7 @@
 // Author: Shavak Sinanan <shavak@gmail.com>
 
 use::std::path::*;
+use aoc_utils::*;
 use day_01::*;
 
 fn part_a(input_path: &Path) {
