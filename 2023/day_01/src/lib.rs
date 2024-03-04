@@ -1,19 +1,8 @@
 // Supporting crate for the solution to Advent of Code 2023 Day 1.
 // Author: Shavak Sinanan <shavak@gmail.com>
 
-use std::fs::File;
-use std::io::{self, BufRead};
-use std::path::Path;
 use std::str::Chars;
 use std::collections::HashMap;
-
-pub fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
-where
-    P: AsRef<Path>,
-{
-    let file = File::open(filename)?;
-    Ok(io::BufReader::new(file).lines())
-}
 
 pub fn first_digit(char_iter: Chars, radix: u32) -> u32 {
     let mut ans = 0;
