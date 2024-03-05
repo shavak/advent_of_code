@@ -28,7 +28,7 @@ fn part_b(input_path: &Path) {
         let lnd = &lines_f.next().unwrap();
         let i: usize = lnd.find(":").unwrap();
         let d = lnd[i + 1..].split_whitespace().collect::<Vec<&str>>().join("").parse::<f64>().unwrap();
-        println!("Part (b):\nNumber of ways to break record = {}", num_record_breaks(t, d))
+        println!("Part (b):\nNumber of ways = {}\n", num_record_breaks(t, d))
     }
 }
 
