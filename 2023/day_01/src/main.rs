@@ -1,7 +1,7 @@
 // Solution to Advent of Code 2023 Day 1.
 // Author: Shavak Sinanan <shavak@gmail.com>
 
-use::std::path::*;
+use std::path::*;
 use aoc_utils::*;
 use day_01::*;
 
