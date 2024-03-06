@@ -1,9 +1,9 @@
 // Solution to Advent of Code 2023 Day 6.
 // Author: Shavak Sinanan <shavak@gmail.com>
 
-use std::path::Path;
 use aoc_utils::*;
 use day_06::*;
+use std::path::Path;
 
 fn part_a(input_path: &Path) {
     let mut acc: u64 = 1u64;
@@ -24,10 +24,18 @@ fn part_b(input_path: &Path) {
         let mut lines_f = lines.flatten();
         let lnt = &lines_f.next().unwrap();
         let i: usize = lnt.find(":").unwrap();
-        let t = lnt[i + 1..].split_whitespace().collect::<Vec<&str>>().join("").parse::<f64>().unwrap();
+        let mut num_str: String = lnt[i + 1..]
+            .chars()
+            .filter(|x| !x.is_whitespace())
+            .collect();
+        let t = num_str.parse::<f64>().unwrap();
         let lnd = &lines_f.next().unwrap();
         let i: usize = lnd.find(":").unwrap();
-        let d = lnd[i + 1..].split_whitespace().collect::<Vec<&str>>().join("").parse::<f64>().unwrap();
+        num_str = lnd[i + 1..]
+            .chars()
+            .filter(|x| !x.is_whitespace())
+            .collect();
+        let d = num_str.parse::<f64>().unwrap();
         println!("Part (b):\nNumber of ways = {}\n", num_record_breaks(t, d))
     }
 }
