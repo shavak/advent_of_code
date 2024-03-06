@@ -1,9 +1,9 @@
 // Solution to Advent of Code 2023 Day 4.
 // Author: Shavak Sinanan <shavak@gmail.com>
 
-use std::path::*;
 use aoc_utils::*;
 use day_05::*;
+use std::path::*;
 
 fn part_a(input_path: &Path) {
     let mut v: Vec<u64> = Vec::<u64>::new();
