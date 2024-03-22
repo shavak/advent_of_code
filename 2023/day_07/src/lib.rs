@@ -14,11 +14,10 @@ pub struct CamelCardHand {
 
 impl CamelCardHand {
     pub fn new(line: &str, r: &HashMap<char, u64>, wild: char) -> Self {
-        let n = line.len();
+        let k = line.find(" ").unwrap();
         let m = r.len();
-        let b = (max(m, n) + 1) as u64;
+        let b = (max(m, k) + 1) as u64;
         let mut h = HashMap::new();
-        let mut k = 0;
         let mut f = 0;
         let mut q = 1;
         for c in line.chars() {
@@ -29,7 +28,6 @@ impl CamelCardHand {
             f += r.get(&c).unwrap();
             h.entry(c).and_modify(|x| *x *= b).or_insert(1);
             q *= b;
-            k += 1;
         }
         let mut g = f;
         let mut e = wild;
