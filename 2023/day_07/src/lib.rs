@@ -14,16 +14,15 @@ pub struct CamelCardHand {
 
 impl CamelCardHand {
     pub fn new(line: &str, r: &HashMap<char, u64>, wild: char) -> Self {
-        let k = line.find(" ").unwrap();
+        let line_split: Vec<&str> = line.split_whitespace().collect();
+        let hand_str = line_split[0].trim();
+        let k = hand_str.len();
         let m = r.len();
         let b = (max(m, k) + 1) as u64;
         let mut h = HashMap::new();
         let mut f = 0;
         let mut q = 1;
-        for c in line.chars() {
-            if c.is_whitespace() {
-                break;
-            }
+        for c in hand_str.chars() {
             f *= b;
             f += r.get(&c).unwrap();
             h.entry(c).and_modify(|x| *x *= b).or_insert(1);
@@ -39,17 +38,16 @@ impl CamelCardHand {
                 e = a;
             }
         }
-        if e != wild { 
+        if e != wild {
             let d = h.remove(&wild).unwrap_or(0) * b;
-            h.entry(e)
-                .and_modify(|x| *x *= if d > 0 { d } else { 1 });
+            h.entry(e).and_modify(|x| *x *= if d > 0 { d } else { 1 });
         }
         for (_, w) in h {
             g += q * w;
         }
         Self {
             hand: String::from(&line[..k]),
-            bid: line[k..].trim().parse::<u32>().unwrap(),
+            bid: line_split[1].trim().parse::<u32>().unwrap(),
             f: f,
             g: g,
         }

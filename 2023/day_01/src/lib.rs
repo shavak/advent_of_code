@@ -1,8 +1,8 @@
 // Supporting crate for the solution to Advent of Code 2023 Day 1.
 // Author: Shavak Sinanan <shavak@gmail.com>
 
-use std::str::Chars;
 use std::collections::HashMap;
+use std::str::Chars;
 
 pub fn first_digit(char_iter: Chars, radix: u32) -> u32 {
     let mut ans = 0;

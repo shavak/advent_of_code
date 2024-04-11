@@ -1,10 +1,10 @@
 // Solution to Advent of Code 2023 Day 4.
 // Author: Shavak Sinanan <shavak@gmail.com>
 
-use std::path::*;
-use std::collections::HashMap;
 use aoc_utils::*;
 use day_04::*;
+use std::collections::HashMap;
+use std::path::*;
 
 fn part_a(input_path: &Path) {
     let mut acc: u32 = 0;
@@ -25,7 +25,10 @@ fn part_b(input_path: &Path) {
             update_card_count(&line, k, &mut card_copies);
         }
     }
-    println!("Part (b):\nTotal number of cards = {}\n", card_copies.values().sum::<u32>());
+    println!(
+        "Part (b):\nTotal number of cards = {}\n",
+        card_copies.values().sum::<u32>()
+    );
 }
 
 fn main() {

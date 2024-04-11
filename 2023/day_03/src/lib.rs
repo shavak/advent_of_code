@@ -74,8 +74,13 @@ pub fn part_number_sum(top: &Vec<char>, middle: &Vec<char>, bottom: &Vec<char>) 
     acc + if symbol_in_play { y } else { 0 }
 }
 
-
-pub fn star_coordinates(top: &Vec<char>, middle: &Vec<char>, bottom: &Vec<char>, i: i32, coords: &mut HashMap<(i32, i32), Vec<u32>>) {
+pub fn star_coordinates(
+    top: &Vec<char>,
+    middle: &Vec<char>,
+    bottom: &Vec<char>,
+    i: i32,
+    coords: &mut HashMap<(i32, i32), Vec<u32>>,
+) {
     let b: u32 = 10;
     let mut reading_number: bool = false;
     let mut y: u32 = 0;

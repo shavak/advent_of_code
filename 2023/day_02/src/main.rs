@@ -1,10 +1,10 @@
 // Solution to Advent of Code 2023 Day 2.
 // Author: Shavak Sinanan <shavak@gmail.com>
 
-use std::path::Path;
-use std::collections::HashMap;
 use aoc_utils::*;
 use day_02::*;
+use std::collections::HashMap;
+use std::path::Path;
 
 fn part_a(input_path: &Path) {
     let content = HashMap::from([("red", 12), ("green", 13), ("blue", 14)]);

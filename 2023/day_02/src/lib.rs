@@ -3,7 +3,7 @@
 
 use std::collections::HashMap;
 
-pub fn create_round(round_str: &str) -> HashMap<&str, u32>{
+pub fn create_round(round_str: &str) -> HashMap<&str, u32> {
     let mut round: HashMap<&str, u32> = HashMap::new();
     let v: Vec<&str> = round_str.split(", ").collect();
     for colour_str in v.iter() {

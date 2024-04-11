@@ -6,11 +6,10 @@ use std::collections::BTreeMap;
 
 #[derive(Debug)]
 pub struct RangeMap {
-    g: BTreeMap<u64, (u64, usize)>, 
+    g: BTreeMap<u64, (u64, usize)>,
 }
 
 impl RangeMap {
-
     pub fn new() -> Self {
         Self {
             g: BTreeMap::<u64, (u64, usize)>::new(),
@@ -32,8 +31,7 @@ impl RangeMap {
                 if d < (*l as u64) {
                     // Lies within a map range.
                     y + d
-                }
-                else {
+                } else {
                     // Straight-through map.
                     q
                 }
@@ -87,5 +85,4 @@ impl RangeMap {
         }
         v
     }
-
 }

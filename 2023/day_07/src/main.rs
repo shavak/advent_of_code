@@ -3,13 +3,15 @@
 
 use aoc_utils::*;
 use day_07::*;
-use std::path::Path;
 use std::collections::HashMap;
+use std::path::Path;
 static WILD: char = 'J';
 
 fn part_a(input_path: &Path) {
-    let u = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'];
-    let mut r : HashMap<char, u64> = HashMap::new();
+    let u = [
+        '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A',
+    ];
+    let mut r: HashMap<char, u64> = HashMap::new();
     for i in 0..u.len() {
         r.insert(u[i], i as u64);
     }
@@ -29,8 +31,10 @@ fn part_a(input_path: &Path) {
 }
 
 fn part_b(input_path: &Path) {
-    let u = ['J', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'Q', 'K', 'A'];
-    let mut r : HashMap<char, u64> = HashMap::new();
+    let u = [
+        'J', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'Q', 'K', 'A',
+    ];
+    let mut r: HashMap<char, u64> = HashMap::new();
     for i in 0..u.len() {
         r.insert(u[i], i as u64);
     }

@@ -63,9 +63,6 @@ fn part_b(input_path: &Path) {
             }
         }
     }
-    // for (k, (u, v)) in &graph {
-    //     println!("{} = {}, {}", k, u, v);
-    // }
     println!(
         "Part (b):\nNumber of steps = {}\n",
         num_ghost_steps(source_nodes, dest_nodes, graph, &inst)

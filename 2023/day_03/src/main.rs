@@ -1,10 +1,10 @@
 // Solution to Advent of Code 2023 Day 3.
 // Author: Shavak Sinanan <shavak@gmail.com>
 
-use std::path::*;
-use std::collections::HashMap;
 use aoc_utils::*;
 use day_03::*;
+use std::collections::HashMap;
+use std::path::*;
 
 fn part_a(input_path: &Path) {
     let mut top: Vec<char>;
