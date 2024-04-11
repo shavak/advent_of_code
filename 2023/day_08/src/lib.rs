@@ -71,19 +71,19 @@ fn simple_modular(r: u64, p: u64, t: u64) -> Option<u64> {
     }
 }
 
-fn chinese_remainder(r: u64, p: u64, s: u64, q: u64) -> Option<(u64, u64)> {
-    let d = integer::gcd(p, q);
+fn chinese_remainder(r: u64, u: u64, s: u64, v: u64) -> Option<(u64, u64)> {
+    let d = integer::gcd(u, v);
     if r % d != s % d {
         return None;
     }
-    let l = integer::lcm(p, q);
-    let w = r % p;
+    let l = integer::lcm(u, v);
+    let w = r % u;
     let mut k = s;
     loop {
-        if k % p == w {
+        if k % u == w {
             break;
         }
-        k += q;
+        k += v;
     }
     if k > r {
         Some((k, l))
@@ -131,9 +131,7 @@ pub fn num_ghost_steps(
     let mut ans = u64::MAX;
     for x in &source_nodes {
         let (b, _) = period(&x, &graph, &dest_nodes, inst);
-        let (c, m) = sync(&a, &b);
-        a = c;
-        ans = m;
+        (a, ans) = sync(&a, &b);
     }
     ans
 }
