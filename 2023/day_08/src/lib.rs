@@ -30,12 +30,11 @@ fn period(
     graph: &HashMap<String, (String, String)>,
     dest_nodes: &HashSet<String>,
     inst: &Vec<char>,
-) -> (Vec<(u64, bool, u64)>, u64) {
+) -> Vec<(u64, bool, u64)> {
     let n = inst.len();
     let mut j = 0_usize;
     let mut cyc: HashMap<(&str, usize), usize> = HashMap::new();
     let (mut y, mut i) = (x, 0_usize);
-    let mut v: Vec<(&str, usize)> = Vec::new();
     let mut u: Vec<u64> = Vec::new();
     let q;
     loop {
@@ -43,7 +42,6 @@ fn period(
             q = k as u64;
             break;
         }
-        v.push((y, i));
         if dest_nodes.contains(y) {
             u.push(j as u64);
         }
@@ -54,13 +52,11 @@ fn period(
         j += 1;
     }
     let mut a: Vec<(u64, bool, u64)> = Vec::new();
-    let mut m: u64 = u64::MAX;
     let p = j as u64 - q;
     for k in u {
-        m = cmp::min(m, k);
         a.push((k, k >= q, p));
     }
-    (a, m)
+    a
 }
 
 fn simple_modular(r: u64, p: u64, t: u64) -> Option<u64> {
@@ -130,7 +126,7 @@ pub fn num_ghost_steps(
     let mut a = vec![(0_u64, true, 1_u64)];
     let mut ans = u64::MAX;
     for x in &source_nodes {
-        let (b, _) = period(&x, &graph, &dest_nodes, inst);
+        let b = period(&x, &graph, &dest_nodes, inst);
         (a, ans) = sync(&a, &b);
     }
     ans
