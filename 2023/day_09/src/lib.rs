@@ -16,7 +16,7 @@ pub fn extrapolate_from_history(a: &mut Vec<i64>) -> i64 {
             all_zeros &= d == 0;
             a[j] = d;
         }
-        if all_zeros {
+        if all_zeros || n == 0 {
             break acc;
         }
         n -= 1;
